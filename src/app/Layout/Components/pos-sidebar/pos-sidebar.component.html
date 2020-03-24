@@ -1,0 +1,118 @@
+<div [class]="'app-sidebar sidebar-shadow ' + (config$ | async).sidebarTheme" (mouseover)="sidebarHover()"
+  (mouseout)="sidebarHover()">
+  <div class="app-header__logo">
+    <div class="logo-src"></div>
+    <div class="header__pane ml-auto">
+      <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+        [ngClass]="{'is-active' : globals.toggleSidebar}" (click)="toggleSidebar()">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="app-sidebar-content">
+    <div class="app-sidebar-scroll">
+      <perfect-scrollbar [autoPropagation]="true">
+        <div class="v-sidebar-menu vsm-default">
+          <div class="vsm-list">
+            <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" [activeIds]="extraParameter">
+              <ngb-panel>
+                <ng-template ngbPanelHeader>
+                  <div class="vsm-header">Main Navigation</div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="posHome">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-browser"></i>
+                    <span class="vsm-title">Point Of Sale</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a routerLinkActive="active-item" routerLink="" class="vsm-link"
+                          [routerLinkActiveOptions]="{exact: true}"><span class="vsm-title">Home</span></a>
+                      </div>
+                      <div class="vsm-item">
+                        <button routerLinkActive="active-item" routerLink="/pos/cashier" class="vsm-link"
+                          [routerLinkActiveOptions]="{exact: true}" [disabled]="!shiftStatus"><span
+                            class="vsm-title">Cashier</span></button>
+                      </div>
+                      <div class="vsm-item">
+                        <button routerLinkActive="active-item" routerLink="/pos/help" class="vsm-link"
+                          [routerLinkActiveOptions]="{exact: true}" [disabled]="!shiftStatus"><span
+                            class="vsm-title">Help</span></button>
+                      </div>
+                      <!-- <div class="vsm-item">
+                        <a routerLinkActive="active-item" routerLink=""
+                          class="vsm-link"><span class="vsm-title">Main Menu</span></a>
+                      </div> -->
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel>
+                <ng-template ngbPanelHeader *ngIf="!home">
+                  <div class="vsm-header">Categories</div>
+                </ng-template>
+              </ngb-panel>
+              <div *ngFor="let mainCategory of categories">
+                <ngb-panel *ngIf="!home">
+                  <ng-template ngbPanelHeader>
+                    <button ngbPanelToggle class="vsm-link">
+                      <i class="vsm-icon pe-7s-browser"></i>
+                      <span class="vsm-title">{{ mainCategory.categoryName }}</span>
+                      <i class="vsm-arrow"></i>
+                    </button>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="vsm-dropdown">
+                      <div class="vsm-list">
+                        <div class="vsm-item" *ngFor="let subCategory of mainCategory.subCategories"
+                          (click)="categoryChange(subCategory.category); highlightCategory($event)">
+                          <a routerLinkActive="active-item" class="vsm-link">
+                            <span class="vsm-title">{{ subCategory.name }}</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+              </div>
+              <ngb-panel>
+                <ng-template ngbPanelHeader *ngIf="!home">
+                  <div class="vsm-header">Offers</div>
+                </ng-template>
+              </ngb-panel>
+              <!-- <ngb-panel id="categories" *ngIf="!home">
+                <ng-template ngbPanelHeader >
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-browser"></i>
+                    <span class="vsm-title">Category One</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item" *ngFor="let category of categories">
+                        <a routerLinkActive="active-item" (click)="changeCatergory({{ category.name | lowercase }})"
+                          class="vsm-link" [routerLinkActiveOptions]="{exact: true}"><span
+                            class="vsm-title">{{ category.name }}</span></a>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel> -->
+
+            </ngb-accordion>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div>

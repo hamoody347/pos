@@ -1,0 +1,474 @@
+<div class="alert alert-success" role="alert">
+  Hi, Welcome Mr. Omer Mohammed
+</div>
+
+<div class="mb-3 card">
+  <mat-tab-group>
+    <mat-tab label="POS {{ screen.number }}" *ngFor="let screen of screens">
+      <div style="margin: 1%">
+        <perfect-scrollbar [autoPropagation]="true">
+          <div class="row">
+            <div class="col-lg-7 col-xl-8">
+              <div class="main-card mb-3 card">
+                <div class="card-body">
+                  <div class="card-title">
+                    <div class="row">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 input-group">
+                        <h5 class="input-group-text">Category: {{ category | uppercase }}</h5>
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search"
+                          [formControl]="itemFilter">
+                      </div>
+                    </div>
+                  </div>
+
+                  <perfect-scrollbar [autoPropagation]="true">
+                    <div class="row" style="height: 480px;">
+                      <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of items">
+                        <div class="card mb-3 widget-content bg-arielle-smile item-pic"
+                          style="overflow: hidden; padding: 0;">
+                          <div class='box'>
+                            <div class='content' (click)="addToCart(item)"
+                              [style.backgroundImage]="'url('+ item.itemPicture +')'"
+                              style="background-repeat:no-repeat; background-size:cover;">
+                              <p class="d-flex align-items-center justify-content-center"
+                                style="background-color: #d1f3ff; color: black;">
+                                {{ item.itemName }}</p>
+                            </div>
+                          </div>
+
+                          <!-- <div class='box'>
+                            <div class='content'>
+                              <div class="widget-content-wrapper text-white content" style="justify-content: center;">
+                                <div class="widget-content-left text-center">
+                                  <img src="{{ item.itemPicture}}" alt="Raised image" class="img-fluid"
+                                    (click)="addToCart(item)">
+                                </div>
+                              </div>
+                            </div>
+                          </div> -->
+                        </div>
+
+                        <!-- <mat-card class="mb-3" style="width: 100%; background-color: #2fa4e7;">
+                          <img mat-card-image style="height: calc(100% + 32px);" src="{{ item.itemPicture }}"
+                            alt="{{ item.itemPictureAlt }}" (click)="addToCart(saleScreen.screenId, item)">
+                          <mat-card-subtitle style="color: black;">
+                            <div class="text-center" style="color: white">
+                              {{ item.itemName }}
+                            </div>
+                          </mat-card-subtitle>
+                        </mat-card> -->
+                      </div>
+                    </div>
+                  </perfect-scrollbar>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5 col-xl-4">
+              <div class="main-card mb-3 card">
+                <div class="card-body">
+                  <h5 class="card-title">Final Bill</h5>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" [(ngModel)]="barcode"
+                      (keyup.enter)="addToCartBarcodeScanner(barcode)">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-fw" aria-hidden="true" style="font-size: 1.500rem;"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <p *ngIf="wrongBarcode" style="color: red;"> Wrong Barcode!</p>
+                  <!-- <div class="container-fluid"> -->
+                  <table
+                    class="mb-3 table table-responsive table-striped table-hover table-bordered scroll-area-md w-100">
+                    <perfect-scrollbar [autoPropagation]="true">
+                      <thead style="background-color: #d1f3ff;">
+                        <tr>
+                          <th class="text-center" style="width: 5%;">#</th>
+                          <th class="text-center" style="width: 40%;">Product</th>
+                          <th class="text-center" style="width: 30%;">Quantity</th>
+                          <!-- <th class="text-center" style="width: 10%;" >Unit Price</th> -->
+                          <th class="text-center" style="width: 10%;">Total</th>
+                          <th class="text-center" style="width: 15%;">Delete</th>
+                          <!-- <th>{{ tableSpacing }}</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let bill of billDetails; let i = index">
+                          <th scope="row" class="text-center">{{i + 1}}</th>
+                          <td class="text-center">{{bill.itemName}}</td>
+                          <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                              <mat-icon small class="mat-icon material-icons" (click)="quantityControl(i, false)"
+                                style="height: 15px; width: 26px; font-size: 18px;">
+                                remove_circle_outline
+                              </mat-icon>
+                              {{bill.itemQuantity}}
+                              <mat-icon small class="mat-icon material-icons" (click)="quantityControl(i, true)"
+                                style="height: 15px; width: 26px; font-size: 18px;">
+                                add_circle_outline
+                              </mat-icon>
+                            </div>
+                          </td>
+                          <!-- <td class="text-center">{{bill.itemPrice}} $</td> -->
+                          <td class="text-center">{{ bill.itemPrice * bill.itemQuantity | number : '1.0-2' }}</td>
+                          <td class="text-center">
+                            <button class="btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteBillItem(i)"
+                              style="padding: 1px 6px;">
+                              <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                            </button>
+                          </td>
+                          <!-- <td>{{ tableSpacing }}</td> -->
+                        </tr>
+                      </tbody>
+                    </perfect-scrollbar>
+                  </table>
+                  <!-- </div> -->
+                  <div class="d-block text-center card-footer">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="input-group mb-3">
+                          <!-- <input type="text" class="form-control" disabled value="{{ getTotalPrice() | currency:'$'}}"> -->
+                          <span class="form-control">{{ getTotalPrice() | currency:'$'}}</span>
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">Total Price</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 d-flex align-items-center mb-3">
+                        <div class="custom-checkbox custom-control">
+                          <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input"
+                            (ngModelChange)="getTotalPrice()" [(ngModel)]="tax" name="addTax">
+                          <label for="exampleCustomCheckbox" class="custom-control-label">Tax</label>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit"
+                      class="mb-2 mr-2 btn btn-block btn-transition btn-outline-info btn-wide btn-lg"
+                      (click)="open(paymentMethods)">
+                      Extract Invoice
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </mat-tab>
+
+    <!-- <mat-tab label="POS Two">
+      <div style="margin: 1%;">
+        Hi, I Work!
+      </div>
+    </mat-tab> -->
+
+    <mat-tab label="Receipt Revision">
+      <div style="margin: 1%;">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 input-group">
+                  <h5 class="input-group-text">Receipt Revision</h5>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search"
+                    [formControl]="receiptFilter">
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="mb-0 table table-striped table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Receipt Number</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Client Name</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Operations</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let receipt of receipts; let i = index">
+                    <!-- <h3 class="text-center" *ngIf="receipt === {}"> No items matching search</h3> -->
+                    <th scope="row" class="text-center">{{ i + 1 }}</th>
+                    <td class="text-center">{{ receipt.receiptNumber }}</td>
+                    <td class="text-center">{{ receipt.receiptDate }}</td>
+                    <td class="text-center">{{ receipt.receiptAmount | currency:'SDG ' }}</td>
+                    <td class="text-center">{{ receipt.clientName }}</td>
+                    <td class="text-center">
+                      <div class="badge badge-pill badge-danger btn-block" *ngIf="(receipt.receiptStatus === 'unpaid')">
+                        Unpaid</div>
+                      <div class="badge badge-pill badge-success btn-block" *ngIf="(receipt.receiptStatus === 'paid')">
+                        Paid</div>
+                    </td>
+                    <td class="text-center">To Be Done!</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="receiptCollectionSize" [(page)]="receiptPage"
+                  [pageSize]="receiptPageSize">
+                </ngb-pagination>
+                <select class="custom-select" style="width: auto" [(ngModel)]="receiptPageSize">
+                  <option [ngValue]="2">2 items per page</option>
+                  <option [ngValue]="4">4 items per page</option>
+                  <option [ngValue]="6">6 items per page</option>
+                  <option [ngValue]="10">10 items per page</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Debt Payment">
+      <div style="margin: 1%;">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 input-group">
+                  <h5 class="input-group-text">Debt Payment</h5>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search"
+                    [formControl]="debtFilter" (keyup.enter)="onEnter()">
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="mb-0 table table-striped table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Receipt Number</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Client Name</th>
+                    <th class="text-center">Group Name</th>
+                    <th class="text-center">Mobile Number</th>
+                    <th class="text-center">Total Amount</th>
+                    <th class="text-center">Paid Amount</th>
+                    <th class="text-center">Operations</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let debt of debts; let i = index">
+                    <!-- <p *ngFor="let debt of Debts"></p> -->
+                    <th scope="row" class="text-center">{{ i + 1 }}</th>
+                    <td class="text-center">{{ debt.receiptNumber }}</td>
+                    <td class="text-center">{{ debt.receiptDate }}</td>
+                    <td class="text-center">{{ debt.clientName }}</td>
+                    <td class="text-center">{{ debt.groupName }}</td>
+                    <td class="text-center">{{ debt.clientMobileNumber }}</td>
+                    <td class="text-center">{{ debt.totalAmount | currency:'SDG ' }}</td>
+                    <td class="text-center">{{ debt.paidAmount | currency:'SDG ' }}</td>
+                    <td class="text-center">To Be Done!</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="debtCollectionSize" [(page)]="debtPage" [pageSize]="debtPageSize">
+                </ngb-pagination>
+                <select class="custom-select" style="width: auto" [(ngModel)]="debtPageSize">
+                  <option [ngValue]="2">2 items per page</option>
+                  <option [ngValue]="4">4 items per page</option>
+                  <option [ngValue]="6">6 items per page</option>
+                  <option [ngValue]="10">10 items per page</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Clients">
+      <div style="margin: 1%;">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <h5 class="card-title">Clients</h5>
+            <form>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="clientName">Client Name</label>
+                    <input name="clientName" id="clientName" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="groupName">Group Name</label>
+                    <input name="groupName" id="groupName" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="debitLimit">Debt Limit</label>
+                    <input name="debitLimit" id="debitLimit" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="birthday">Birthday</label>
+                    <input name="birthday" id="birthday" type="date" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="gender">Gender</label>
+                    <input name="gender" id="gender" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="pMobileNumber">Primary Mobile Number</label>
+                    <input name="pMobileNumber" id="pMobileNumber" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="sMobileNumber">Secondary Mobile Number</label>
+                    <input name="sMobileNumber" id="sMobileNumber" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="emailAddress">E-mail Address</label>
+                    <input name="emailAddress" id="emailAddress" type="email" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="position-relative form-check">
+                <input name="check" id="exampleCheck" type="checkbox" class="form-check-input">
+                <label for="exampleCheck" class="form-check-label">Check me out</label>
+              </div>
+              <button class="mt-2 btn btn-primary">Sign in</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </mat-tab>"
+
+  </mat-tab-group>
+</div>
+
+
+<ng-template #paymentMethods let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Choose payment method</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-3">
+        <div class="font-icon-wrapper font-icon-lg" (click)="d('Cash Payment'); open(billFinalization, 'lg')">
+          <i class="pe-7s-cash icon-gradient bg-grow-early">
+          </i>
+          <p>Cash Payment</p>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="font-icon-wrapper font-icon-lg" (click)="d('Bank Transaction'); open(billFinalization, 'lg')">
+          <i class="pe-7s-credit icon-gradient bg-ripe-malin"> </i>
+          <p>Bank Transaction</p>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="font-icon-wrapper font-icon-lg" (click)="d('Post Payment'); open(billFinalization, 'lg')">
+          <i class="pe-7s-hourglass icon-gradient bg-plum-plate"> </i>
+          <p>Post Payment</p>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="font-icon-wrapper font-icon-lg" (click)="d('Preliminary Bill'); open(billFinalization, 'lg')">
+          <i class="pe-7s-note2 icon-gradient bg-sunny-morning"> </i>
+          <p>Preliminary Bill</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #billFinalization let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ paymentMethod }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="position-relative form-group"><label for="exampleEmail11">Email</label><input name="email"
+              id="exampleEmail11" placeholder="with a placeholder" type="email" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="position-relative form-group"><label for="examplePassword11">Password</label><input
+              name="password" id="examplePassword11" placeholder="password placeholder" type="password"
+              class="form-control"></div>
+        </div>
+      </div>
+      <div class="position-relative form-group"><label for="exampleAddress">Address</label><input name="address"
+          id="exampleAddress" placeholder="1234 Main St" type="text" class="form-control">
+      </div>
+      <div class="position-relative form-group"><label for="exampleAddress2">Address 2</label><input name="address2"
+          id="exampleAddress2" placeholder="Apartment, studio, or floor" type="text" class="form-control"></div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="position-relative form-group"><label for="exampleCity">City</label><input name="city"
+              id="exampleCity" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="position-relative form-group"><label for="exampleState">State</label><input name="state"
+              id="exampleState" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="position-relative form-group"><label for="exampleZip">Zip</label><input name="zip" id="exampleZip"
+              type="text" class="form-control">
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</ng-template>
+
+
+<!-- 
+<div class="col-md-2">
+  <div class="font-icon-wrapper"><button class="pe-7s-plus"> </button>
+    <p>pe-7s-plus</p>
+  </div>
+</div>
+
+<div class="col-md-2">
+  <div class="font-icon-wrapper"><button class="pe-7s-less"> </button>
+    <p>pe-7s-less</p>
+  </div>
+</div> -->

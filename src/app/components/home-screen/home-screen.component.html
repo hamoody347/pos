@@ -1,0 +1,451 @@
+<div class="app-page-title">
+  <div class="page-title-wrapper">
+    <div class="page-title-heading">
+      <div class="page-title-icon" style="height: 130px; width: 130px;">
+        <img src="./assets/images/avatars/1.jpg" alt="Raised image" class="img-fluid rounded shadow-lg"
+          style="width: 130px;">
+      </div>
+      <div>
+        Omer Mohammed
+        <div class="page-title-subheading">
+          Cashier
+        </div>
+      </div>
+    </div>
+    <div class="page-title-actions">
+
+      <button class="mb-2 mr-2 btn btn-transition btn-outline-success btn-lg" *ngIf="!shift"
+        (click)="open(cashierSelection)">Start Shift
+      </button>
+      <button class="mb-2 mr-2 btn btn-transition btn-outline-danger btn-lg" *ngIf="shift"
+        (click)="toggleShift(); shiftStatusControl(false)">End
+        Shift
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="mb-3 card">
+  <mat-tab-group>
+    <mat-tab label="Home">
+      <div style="margin: 1%">
+        <perfect-scrollbar [autoPropagation]="true">
+          <div class="row">
+            <div class="col-lg-6 col-xl-3">
+              <div class="card mb-3 widget-content bg-arielle-smile scroll-area-xs">
+                <div class="widget-content-wrapper text-white" style="justify-content: center;">
+                  <div class="widget-content-left text-center">
+                    <div class="widget-heading">{{ timers }}</div>
+                    <div class="widget-subheading">Shift Duration</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-xl-3">
+              <div class="card mb-3 widget-content bg-arielle-smile scroll-area-xs">
+                <div class="widget-content-wrapper text-white" style="justify-content: center;">
+                  <div class="widget-content-left text-center">
+                    <div class="widget-subheading">{{ shiftStartBalance | currency:'SDG ' }}</div>
+                    <div class="widget-heading">Shift Start Balance</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-xl-3">
+              <div class="card mb-3 widget-content bg-arielle-smile scroll-area-xs">
+                <div class="widget-content-wrapper text-white" style="justify-content: center;">
+                  <div class="widget-content-left text-center">
+                    <div class="widget-subheading">{{ totalIncome | currency:'SDG ' }}</div>
+                    <div class="widget-heading">Total Daily Revenue</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-xl-3">
+              <div class="card mb-3 widget-content bg-arielle-smile scroll-area-xs">
+                <div class="widget-content-wrapper text-white" style="justify-content: center;">
+                  <div class="widget-content-left text-center">
+                    <div class="widget-subheading">{{ numberOfSales }}</div>
+                    <div class="widget-heading">Number Of Sales</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Accessibilities">
+      <div style="margin: 1%">
+        <perfect-scrollbar [autoPropagation]="true">
+          <div class="row">
+            <div class="col-sm-12 col-lg-6">
+              <div class="card-hover-shadow-2x mb-3 card">
+                <div class="card-header-tab card-header">
+                  <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i
+                      class="header-icon lnr-database icon-gradient bg-malibu-beach"> </i>Tasks List
+                  </div>
+                  <div class="btn-actions-pane-right text-capitalize actions-icon-btn" ngbDropdown>
+                    <button class="btn btn-icon btn-icon-only btn-link" ngbDropdownToggle>
+                      <fa name="th"></fa>
+                    </button>
+                    <div ngbDropdownMenu>
+                      <button type="button" tabindex="0" class="dropdown-item"><i class="dropdown-icon lnr-inbox">
+                        </i><span>Menus</span></button>
+                      <button type="button" tabindex="0" class="dropdown-item"><i class="dropdown-icon lnr-file-empty">
+                        </i><span>Settings</span>
+                      </button>
+                      <button type="button" tabindex="0" class="dropdown-item"><i class="dropdown-icon lnr-book">
+                        </i><span>Actions</span>
+                      </button>
+                      <div tabindex="-1" class="dropdown-divider"></div>
+                      <div class="p-1 text-right">
+                        <button class="mr-2 btn-shadow btn-sm btn btn-link">View Details</button>
+                        <button class="mr-2 btn-shadow btn-sm btn btn-primary">Action</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="scroll-area-sm">
+                  <perfect-scrollbar [autoPropagation]="true">
+                    <ul class="todo-list-wrapper list-group list-group-flush">
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-warning"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox12" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading">Wash the car
+                                <div class="badge badge-danger ml-2">Rejected</div>
+                              </div>
+                              <div class="widget-subheading"><i>Written by Bob</i></div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <button class="border-0 btn-transition btn btn-outline-success">
+                                <fa name="check"></fa>
+                              </button>
+                              <button class="border-0 btn-transition btn btn-outline-danger">
+                                <fa name="trash"></fa>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-focus"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox1" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading">Task with dropdown menu</div>
+                              <div class="widget-subheading">
+                                <div>By Johnny
+                                  <div class="badge badge-pill badge-info ml-2">NEW</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <div class="d-inline-block" ngbDropdown placement="bottom-right">
+                                <button class="btn btn-icon btn-icon-only btn-link" ngbDropdownToggle>
+                                  <i class="pe-7s-menu btn-icon-wrapper"></i>
+                                </button>
+                                <div ngbDropdownMenu>
+                                  <ul class="nav flex-column">
+                                    <li class="nav-item-header nav-item">Activity</li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Chat
+                                        <div class="ml-auto badge badge-pill badge-info">8</div>
+                                      </a></li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Recover Password</a></li>
+                                    <li class="nav-item-header nav-item">My Account</li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Settings
+                                        <div class="ml-auto badge badge-success">New</div>
+                                      </a></li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Messages
+                                        <div class="ml-auto badge badge-warning">512</div>
+                                      </a></li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Logs</a></li>
+                                    <li class="nav-item-divider nav-item"></li>
+                                    <li class="nav-item-btn nav-item">
+                                      <button class="btn-wide btn-shadow btn btn-danger btn-sm">Cancel</button>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-primary"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox4" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox4">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left flex2">
+                              <div class="widget-heading">Badge on the right task</div>
+                              <div class="widget-subheading">This task has show on hover actions!</div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <button class="border-0 btn-transition btn btn-outline-success">
+                                <fa name="check"></fa>
+                              </button>
+                            </div>
+                            <div class="widget-content-right ml-3">
+                              <div class="badge badge-pill badge-success">Latest Task</div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-info"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox2" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox2">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left mr-3">
+                              <div class="widget-content-left">
+                                <img width="42" class="rounded" src="./assets/images/avatars/1.jpg" alt="">
+                              </div>
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading">Go grocery shopping</div>
+                              <div class="widget-subheading">A short description for this todo item</div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <button class="border-0 btn-transition btn btn-outline-success">
+                                <fa name="check"></fa>
+                              </button>
+                              <button class="border-0 btn-transition btn btn-outline-danger">
+                                <fa name="trash"></fa>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-warning"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox12" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading">Wash the car
+                                <div class="badge badge-danger ml-2">Rejected</div>
+                              </div>
+                              <div class="widget-subheading"><i>Written by Bob</i></div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <button class="border-0 btn-transition btn btn-outline-success">
+                                <fa name="check"></fa>
+                              </button>
+                              <button class="border-0 btn-transition btn btn-outline-danger">
+                                <fa name="trash"></fa>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-focus"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox1" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading">Task with dropdown menu</div>
+                              <div class="widget-subheading">
+                                <div>By Johnny
+                                  <div class="badge badge-pill badge-info ml-2">NEW</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <div class="d-inline-block" ngbDropdown placement="bottom-right">
+                                <button class="btn btn-icon btn-icon-only btn-link" ngbDropdownToggle>
+                                  <i class="pe-7s-menu btn-icon-wrapper"></i>
+                                </button>
+                                <div ngbDropdownMenu>
+                                  <ul class="nav flex-column">
+                                    <li class="nav-item-header nav-item">Activity</li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Chat
+                                        <div class="ml-auto badge badge-pill badge-info">8</div>
+                                      </a></li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Recover Password</a></li>
+                                    <li class="nav-item-header nav-item">My Account</li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Settings
+                                        <div class="ml-auto badge badge-success">New</div>
+                                      </a></li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Messages
+                                        <div class="ml-auto badge badge-warning">512</div>
+                                      </a></li>
+                                    <li class="nav-item"><a [routerLink]="" class="nav-link">Logs</a></li>
+                                    <li class="nav-item-divider nav-item"></li>
+                                    <li class="nav-item-btn nav-item">
+                                      <button class="btn-wide btn-shadow btn btn-danger btn-sm">Cancel</button>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-primary"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox4" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox4">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left flex2">
+                              <div class="widget-heading">Badge on the right task</div>
+                              <div class="widget-subheading">This task has show on hover actions!</div>
+                            </div>
+                            <div class="widget-content-right widget-content-actions">
+                              <button class="border-0 btn-transition btn btn-outline-success">
+                                <fa name="check"></fa>
+                              </button>
+                            </div>
+                            <div class="widget-content-right ml-3">
+                              <div class="badge badge-pill badge-success">Latest Task</div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="todo-indicator bg-success"></div>
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-2">
+                              <div class="custom-checkbox custom-control"><input type="checkbox"
+                                  id="exampleCustomCheckbox3" class="custom-control-input"><label
+                                  class="custom-control-label" for="exampleCustomCheckbox3">&nbsp;</label>
+                              </div>
+                            </div>
+                            <div class="widget-content-left flex2">
+                              <div class="widget-heading">Development Task</div>
+                              <div class="widget-subheading">Finish Vue ToDo List App</div>
+                            </div>
+                            <div class="widget-content-right">
+                              <div class="badge badge-warning mr-2">69</div>
+                            </div>
+                            <div class="widget-content-right">
+                              <button class="border-0 btn-transition btn btn-outline-success">
+                                <fa name="check"></fa>
+                              </button>
+                              <button class="border-0 btn-transition btn btn-outline-danger">
+                                <fa name="trash"></fa>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </perfect-scrollbar>
+                </div>
+                <div class="d-block text-right card-footer">
+                  <button class="mr-2 btn btn-link btn-sm">Cancel</button>
+                  <button class="btn btn-primary">Add Task</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-6">
+              <div class="card mb-3">
+                <div class="text-center">
+                  <h4 style="color: #d1f3ff;">Calculator Goes Here!</h4>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Reset Password">
+      <div style="margin: 1%; overflow: hidden;">
+        <app-reset-password> </app-reset-password>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Account Prefrencess">
+      <div class="sidebar" style="margin: 1%;">
+        Hi, I Work!
+      </div>
+    </mat-tab>"
+  </mat-tab-group>
+</div>
+
+
+<ng-template #cashierSelection let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Select a cashier</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-row">
+        <div class="col-lg-12 position-relative form-group">
+          <!-- <mat-form-field> -->
+          <!-- <mat-select name="cashierSelect" placeholder="Select cashier">
+            <mat-option *ngFor=" let selectModel of cashiers" [value]="selectModel.id">
+              {{selectModel.name}}
+            </mat-option>
+          </mat-select> -->
+          <!-- </mat-form-field> -->
+          <div class="position-relative form-group">
+            <!-- <label for="exampleSelect">Select</label> -->
+            <select name="select" id="exampleSelect" class="form-control">
+              <option *ngFor=" let selectModel of cashiers" [value]="selectModel.id">{{selectModel.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+    <button type="button" class="btn btn-primary">Save changes</button> -->
+    <button class="mb-2 mr-2 btn-transition btn btn-outline-info"
+      (click)="toggleShift(); shiftStatusControl(true); ">Select
+    </button>
+    <button class="mb-2 mr-2 btn-transition btn btn-outline-danger" (click)="c('Close click')">Cancel
+    </button>
+  </div>
+</ng-template>
